@@ -54,6 +54,17 @@ If you have multiple GPUs,
 If you want to resume training from a certain epoch (for example, epoch 25)
 
         python train.py house2zebra --load_epoch 25
+        
+For more information,
+
+usage: train.py [-h] [--path_log PATH_LOG] [--gpu_ids GPU_IDS [GPU_IDS ...]]
+                [--num_epoch NUM_EPOCH] [--load_epoch LOAD_EPOCH]
+                [--save_freq SAVE_FREQ] [--load_size LOAD_SIZE]
+                [--crop_size CROP_SIZE] [--batch_size BATCH_SIZE] [--lr LR]
+                [--beta1 BETA1] [--lambda_idt LAMBDA_IDT]
+                [--lambda_A LAMBDA_A] [--lambda_B LAMBDA_B]
+                name_dataset
+
 
 
 ### 3. Generates images
