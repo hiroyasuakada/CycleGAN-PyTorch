@@ -64,7 +64,7 @@ if __name__ == '__main__':
         '--path_log', type=str, default='logs', help='path to dict where log of training details will be saved'
     )
     parser.add_argument(
-        '--gpu_ids', type=int, nargs='+', default=0, help='gpu ids'
+        '--gpu_ids', type=int, nargs='+', default=[0], help='gpu ids'
     )
     parser.add_argument(
         '--num_epoch', type=int, default=400, help='total training epochs'
@@ -94,10 +94,10 @@ if __name__ == '__main__':
         '--lambda_idt', type=int, default=5, help='weights of identity loss'
     )    
     parser.add_argument(
-        '--lambda_A', type=int, default=10, help='weights of identity loss'
+        '--lambda_A', type=int, default=10, help='weights of adversarial loss for A to B'
     )    
     parser.add_argument(
-        '--lambda_B', type=int, default=10, help='weights of identity loss'
+        '--lambda_B', type=int, default=10, help='weights of adversarial loss for B to A'
     )
 
     args = parser.parse_args()

@@ -75,7 +75,7 @@ if __name__ == '__main__':
         '--path_log', type=str, default='logs', help='path to dict where log of training details was saved'
     )
     parser.add_argument(
-        '--gpu_ids', type=int, nargs='+', default=0, help='gpu ids'
+        '--gpu_ids', type=int, nargs='+', default=[0], help='gpu ids'
     )
     parser.add_argument(
         '--num_epoch', type=int, default=400, help='total training epochs'
