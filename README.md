@@ -26,7 +26,7 @@ Tested on ...
         mkdir dataset
         cd dataset
 
-Please put your dataset in `dataset` folder or please download public datasets from [here].(https://people.eecs.berkeley.edu/~taesung_park/CycleGAN/datasets/)
+Please put your dataset in `dataset` folder or please download public datasets from [here](https://people.eecs.berkeley.edu/~taesung_park/CycleGAN/datasets/).
 
 | Example of folder relation | &nbsp;
 | :--- | :----------
