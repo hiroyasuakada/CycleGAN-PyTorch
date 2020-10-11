@@ -1,6 +1,6 @@
 # CycleGAN-PyTorch
 
-A simplest PyTorch implementation of CycleGAN. 
+The simplest PyTorch implementation of CycleGAN. 
 
 
 # Requirements
