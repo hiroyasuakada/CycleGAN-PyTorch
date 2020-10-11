@@ -13,7 +13,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     rm -rf /var/lib/apt/lists/*
 
 ##############################################################################
-##                                 Python3.7                                ##
+##                                 Python3.6                                ##
 ##############################################################################
 
 RUN apt update
@@ -26,7 +26,6 @@ RUN add-apt-repository ppa:deadsnakes/ppa
 RUN apt update
 RUN echo y | apt-get install python3.6
 RUN echo y | apt install python3-pip
-# RUN python3 -m pip install --upgrade pip setuptools
 RUN python3.6 -m pip install --upgrade pip setuptools
 
 RUN apt update
@@ -46,7 +45,6 @@ RUN echo y | apt install git
 RUN pip3 install scipy==1.1.0
 RUN pip3 install requests
 RUN pip3 install Pillow
-# RUN pip3 install Pillow==6.2.1
 RUN pip3 install numpy
 RUN pip3 install tensorboard
 RUN pip3 install cython
@@ -58,13 +56,7 @@ RUN pip3 install tensorboardX
 RUN pip3 install dominate>=2.3.1
 RUN pip3 install visdom>=0.1.8.3
 
-# RUN pip3 install matplotlib
-# RUN pip3 install scikit-learn
-# RUN pip3 install scikit-image
-
-# RUN pip3 install tensorflow-gpu==1.12.0
 RUN pip3 install torch==1.1 torchvision==0.3
-# RUN pip3 install keras==2.2.4
 
 # ##############################################################################
 # ##                            opencv2 error                                 ##
@@ -79,16 +71,6 @@ RUN echo y | apt install libglib2.0-0
 RUN apt update
 RUN echo y | apt install wget
 RUN echo y | apt install unzip
-
-##############################################################################
-##                              visualization                               ##
-##############################################################################
-# RUN pip3 install pydot
-# RUN pip3 install graphviz
-# RUN pip3 install PyGLM
-# RUN pip3 install PySide2
-# RUN pip3 install pyopengl
-# RUN echo y | apt install graphviz
 
 # ##############################################################################
 # ##                               CUDA error                                 ##
