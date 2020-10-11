@@ -14,7 +14,7 @@ Tested on ...
 - For docker user, please use the [provided Dockerfile](https://github.com/hiroyasuakada/CycleGAN-PyTorch/blob/main/docker_ITC/dockerfile). (highly recommended)
 
 # Usage
-## Train CycleGAN
+## Train CycleGAN with your or public dataset 
 
 ### 1. Download this repository
 
