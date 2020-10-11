@@ -20,8 +20,8 @@ class UnalignedDataset(torch.utils.data.Dataset):
             dir_B = os.path.join(root_dir, 'trainB')
 
         else:
-            dir_A = os.path.join(root_dir, 'test_A')
-            dir_B = os.path.join(root_dir, 'test_B')
+            dir_A = os.path.join(root_dir, 'testA')
+            dir_B = os.path.join(root_dir, 'testB')
 
         self.image_paths_A = self._make_dataset(dir_A)
         self.image_paths_B = self._make_dataset(dir_B)

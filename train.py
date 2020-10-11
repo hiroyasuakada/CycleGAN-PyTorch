@@ -13,14 +13,14 @@ from model_base import ResNetBlock, Generator, Discriminator
 from model_cyclegan import CycleGAN
 
 
-def train(device, log_dir, gpu_ids, lr, beta1, lambda_idt, lambda_A, lambda_B, num_epoch, load_epoch, save_freq):
+def train(device, log_dir, gpu_ids, batch_size, lr, beta1, lambda_idt, lambda_A, lambda_B, num_epoch, load_epoch, save_freq, train_loader):
     model = CycleGAN(device=device, log_dir=log_dir, gpu_ids=gpu_ids, lr=lr, beta1=beta1,
                      lambda_idt=lambda_idt, lambda_A=lambda_A, lambda_B=lambda_B)
 
     if load_epoch != 0:
-        model.log_dir = 'logs'
+        model.log_dir = log_dir
         print('load model {}'.format(load_epoch))
-        model.load('epoch' + str(load_epoch))
+        model.load('epoch_' + str(load_epoch))
 
     writer = SummaryWriter(log_dir)
 
@@ -44,9 +44,13 @@ def train(device, log_dir, gpu_ids, lr, beta1, lambda_idt, lambda_A, lambda_B, n
         writer.add_scalar('loss_cycle_B', losses[5], epoch + 1 + load_epoch)
         writer.add_scalar('loss_idt_A', losses[6], epoch + 1 + load_epoch)
         writer.add_scalar('loss_idt_B', losses[7], epoch + 1 + load_epoch)
+        
+        # generate images during training
+        with torch.no_grad():
+            model.generate_imgs("epoch_" + str(epoch + 1 + load_epoch), batch_size)
 
         if (epoch + 1 + load_epoch) % save_freq == 0:
-            model.save('epoch%d' % (epoch + 1 + load_epoch))
+            model.save('epoch_%d' % (epoch + 1 + load_epoch))
 
 
 if __name__ == '__main__':
@@ -54,13 +58,13 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='CycleGAN trainer')
 
     parser.add_argument(
-        'name_dataset', type=str, help='name of your image dataset'
+        'name_dataset', type=str, help='name of your training image dataset'
     )
     parser.add_argument(
         '--path_log', type=str, default='logs', help='path to dict where log of training details will be saved'
     )
     parser.add_argument(
-        '--gpu_ids', type=int, nargs='+', default=None, help='gpu ids'
+        '--gpu_ids', type=int, nargs='+', default=0, help='gpu ids'
     )
     parser.add_argument(
         '--num_epoch', type=int, default=400, help='total training epochs'
@@ -122,8 +126,8 @@ if __name__ == '__main__':
     )
 
     # train
-    train(device, args.path_log, args.gpu_ids, args.lr, args.beta1, args.lambda_idt, args.lambda_A, args.lambda_B,
-          args.num_epoch, args.load_epoch, args.save_freq)
+    train(device, args.path_log, args.gpu_ids, args.batch_size, args.lr, args.beta1, args.lambda_idt, args.lambda_A, args.lambda_B,
+          args.num_epoch, args.load_epoch, args.save_freq, train_loader)
 
 
 

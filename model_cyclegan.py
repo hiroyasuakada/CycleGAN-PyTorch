@@ -4,6 +4,7 @@ import itertools
 import numpy as np
 import torch
 import torch.nn as nn
+from torchvision import utils 
 from PIL import Image
 import time
 
@@ -13,7 +14,7 @@ from model_base import Generator, Discriminator
 
 class CycleGAN(object):
 
-    def __init__(self, device='cuda:0', log_dir='logs', gpu_ids=None, lr=0.0002, beta1=0.5,
+    def __init__(self, device='cuda:0', log_dir='logs', gpu_ids=0, lr=0.0002, beta1=0.5,
                  lambda_idt=5, lambda_A=10.0, lambda_B=10.0):
         self.lr = lr
         self.beta1 = beta1
@@ -27,12 +28,11 @@ class CycleGAN(object):
         print(torch.cuda.is_available())
 
         # multi-GPUs
-        if gpu_ids is not None:
-            self.netG_A = torch.nn.DataParallel(self.netG_A, gpu_ids)
-            self.netG_B = torch.nn.DataParallel(self.netG_B, gpu_ids)
-            self.netD_A = torch.nn.DataParallel(self.netD_A, gpu_ids)
-            self.netD_B = torch.nn.DataParallel(self.netD_B, gpu_ids)
-            print('will use gpus: {}'.format(gpu_ids))
+        self.netG_A = torch.nn.DataParallel(self.netG_A, gpu_ids)
+        self.netG_B = torch.nn.DataParallel(self.netG_B, gpu_ids)
+        self.netD_A = torch.nn.DataParallel(self.netD_A, gpu_ids)
+        self.netD_B = torch.nn.DataParallel(self.netD_B, gpu_ids)
+        print('will use gpus: {}'.format(gpu_ids))
 
         self.fake_A_pool = ImagePool(50)
         self.fake_B_pool = ImagePool(50)
@@ -187,8 +187,8 @@ class CycleGAN(object):
             get_processing_time = t2 - t1
             time_list.append(get_processing_time)
 
-            if batch_idx % 500 == 0:
-                print('batch: {} / elapsed_time: {} sec'.format(batch_idx, sum(time_list)))
+            if batch_idx % 50 == 0:
+                print('batch: {} / {}, elapsed_time: {} sec'.format(batch_idx, len(data_loader), sum(time_list)))
                 time_list = []
 
         running_loss /= len(data_loader)
@@ -218,6 +218,37 @@ class CycleGAN(object):
         self.load_network(self.netG_B, 'G_B', label)
         self.load_network(self.netD_B, 'D_B', label)
 
+    def save_imgs(self, imgs, name_imgs, batch_size, epoch_label):
+        img_table_name = '{}_'.format(epoch_label) + name_imgs + '.png'
+        save_path = os.path.join(self.log_dir, img_table_name)
+        if batch_size <= 16:
+            utils.save_image(
+                imgs,
+                save_path,
+                nrow=int(batch_size ** 0.5),
+                normalize=True,
+                range=(-1, 1)
+            )
+        else:
+            utils.save_image(
+                imgs,
+                save_path,
+                nrow=int(16 ** 0.5),
+                normalize=True,
+                range=(-1, 1)
+            )
+
+    def generate_imgs(self, epoch_label, batch_size):
+        real_A = self.real_A
+        real_B = self.real_B
+        fake_B = self.netG_A(real_A)
+        fake_A = self.netG_B(real_B)
+
+        self.save_imgs(real_A, 'real_A', batch_size, epoch_label)
+        self.save_imgs(real_B, 'real_B', batch_size, epoch_label)
+        self.save_imgs(fake_B, 'fake_B', batch_size, epoch_label)
+        self.save_imgs(fake_A, 'fake_A', batch_size, epoch_label)
+        
 
 class ImagePool(object):
     def __init__(self, pool_size):
