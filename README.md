@@ -56,7 +56,8 @@ If you have multiple GPUs,
 If you want to resume training from a certain epoch, (for example, epoch 25)
 
         python train.py house2zebra --load_epoch 25
-        
+
+The image is supposed to be a square then this will be resized to 256 × 256.
 For more information about training setting, please run `python train.py --help`.
 
 
