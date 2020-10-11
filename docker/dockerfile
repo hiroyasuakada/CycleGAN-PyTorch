@@ -29,7 +29,6 @@ RUN echo y | apt install python3
 RUN echo y | apt install python3-pip
 RUN python3 -m pip install --upgrade pip setuptools
 
-RUN pip3 install tensorflow-gpu==1.15.0
 RUN pip3 install scipy==1.3.3
 RUN pip3 install requests==2.22.0
 RUN pip3 install Pillow==6.2.1
@@ -38,19 +37,22 @@ RUN pip3 install tensorboard
 RUN pip3 install cython
 RUN pip3 install lmdb
 RUN pip3 install moviepy
-
 RUN pip3 install opencv-python
-
-RUN pip3 install torch torchvision
-
 RUN pip3 install ninja
-
 RUN pip3 install tensorboardX
-
 RUN pip3 install wandb
 
+RUN pip3 install matplotlib
+RUN pip3 install scikit-learn
+RUN pip3 install scikit-image
+
+RUN pip3 install tensorflow-gpu==1.15.0
+RUN pip3 install torch torchvision
+RUN pip3 install keras==2.2.4
+
+
 ##############################################################################
-##                               pytorch                                    ##
+##                                  git                                     ##
 ##############################################################################
 RUN apt update
 RUN echo y | apt install git
@@ -61,3 +63,19 @@ RUN echo y | apt install git
 ##############################################################################
 RUN apt update
 RUN echo y | apt install libgl1-mesa-glx
+
+##############################################################################
+##                              visualization                               ##
+##############################################################################
+RUN pip3 install pydot
+# RUN pip3 install graphviz
+RUN pip3 install PyGLM
+RUN pip3 install PySide2
+RUN pip3 install pyopengl
+RUN pip3 install PyOpenGL_accelerate
+RUN echo y | apt install graphviz
+RUN echo y | apt install freeglut3 
+RUN echo y | apt install freeglut3-dev
+RUN apt update
+
+# ENV CUDA_VISIBLE_DEVICES = -1
