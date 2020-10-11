@@ -28,7 +28,7 @@ Tested on ...
 
 Please put your dataset in `dataset` folder or please download public datasets from [here](https://people.eecs.berkeley.edu/~taesung_park/CycleGAN/datasets/)
 
-| Folder relation | &nbsp;
+| Example of folder relation | &nbsp;
 | :--- | :----------
 | dataset
 | &boxur;&nbsp; hourse2zebra
@@ -40,14 +40,20 @@ Please put your dataset in `dataset` folder or please download public datasets f
 and then move back to `CycleGAN-PyTorch` folder by `cd ..` command.
 
 
-### 3. Convert the wegihts of Tensorflow to the ones of PyTorch
+### 3. Train the model
+
+        python train.py [DATASET NAME]
         
-        python convert_weights.py
+        # for example
+        python train.py horse2zebra
         
-        # for docker user 
-        python3 convert_weights.py
-        
-This creates `stylegan2_ndarray.pkl` in `original_implementation_by_tf` folder and `stylegan2_pytorch_state_dict.pth` in `checkpoint_1` folder.
+If you have multiple GPUs,
+
+        python train.py horse2zebra --gpu_ids 0 1 --batch_size 4 
+
+If you want to resume training from a certain epoch (for example, epoch 25)
+
+        python train.py house2zebra --load_epoch 25
 
 
 ### 3. Generates images
